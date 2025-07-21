@@ -77,7 +77,7 @@ export class MultimodalLiveClient extends EventEmitter {
         return new Promise((resolve, reject) => {
             const onError = (ev) => {
                 this.disconnect(ws);
-                const message = `Could not connect to "${this.url}"`;
+                const message = `Could not connect to "${this.baseUrl}"`;
                 this.log(`server.${ev.type}`, message);
                 throw new ApplicationError(
                     message,

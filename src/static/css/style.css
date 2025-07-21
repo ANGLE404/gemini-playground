@@ -1,111 +1,314 @@
+/* 导入像素字体 */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 :root {
-    --primary-color: #4285f4;
-    --secondary-color: #34a853;
-    --danger-color: #ea4335;
-    --background-color: #f0f0f0;
-    --surface-color: #fff;
-    --border-color: #ccc;
-    --text-color: #333;
-    --text-secondary: #666;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    --border-radius: 8px;
+    /* 淡紫色果冻风格配色方案 */
+    --primary-color: #9d4edd;
+    --primary-light: #c77dff;
+    --primary-dark: #7b2cbf;
+    --secondary-color: #e0aaff;
+    --accent-color: #c77dff;
+    --danger-color: #ff6b9d;
+    --success-color: #06ffa5;
+    --warning-color: #ffbe0b;
+
+    /* 背景渐变色 */
+    --background-gradient: linear-gradient(135deg, #f8f0ff 0%, #e8d5ff 50%, #d4c5ff 100%);
+    --surface-color: rgba(255, 255, 255, 0.85);
+    --surface-glass: rgba(255, 255, 255, 0.15);
+    --border-color: rgba(157, 78, 221, 0.3);
+
+    /* 文字颜色 */
+    --text-color: #2d1b69;
+    --text-secondary: #6b46c1;
+    --text-light: rgba(255, 255, 255, 0.9);
+
+    /* 阴影效果 */
+    --shadow-color: rgba(157, 78, 221, 0.2);
+    --glow-color: rgba(199, 125, 255, 0.4);
+    --jelly-shadow: 0 8px 32px rgba(157, 78, 221, 0.3);
+
+    /* 圆角和间距 */
+    --border-radius: 20px;
+    --border-radius-sm: 12px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
-    --primary-color-rgb: 66, 133, 244;
+    --spacing-xl: 32px;
+
+    /* 动画时间 */
+    --transition-fast: 0.2s;
+    --transition-normal: 0.3s;
+    --transition-slow: 0.5s;
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Orbitron', 'Press Start 2P', monospace;
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background: var(--background-gradient);
+    background-attachment: fixed;
+    margin: 0;
+    padding: var(--spacing-md);
+    color: var(--text-color);
+    overflow-x: hidden;
+
+    /* 添加动态背景效果 */
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(199, 125, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(224, 170, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundFloat 20s ease-in-out infinite;
+}
+
+@keyframes backgroundFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(1deg); }
+    66% { transform: translateY(5px) rotate(-1deg); }
 }
 
 #app {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 1000px;
+    background: var(--surface-color);
+    backdrop-filter: blur(20px);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: var(--jelly-shadow);
+    border: 2px solid var(--border-color);
+    width: 85%;
+    max-width: 1200px;
+    position: relative;
+    overflow: hidden;
+
+    /* 果冻效果 */
+    transition: all var(--transition-normal) ease;
+    transform: translateY(0);
+}
+
+#app::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+        transparent 30%,
+        rgba(199, 125, 255, 0.1) 50%,
+        transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+#app:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(157, 78, 221, 0.4);
+    border-color: var(--primary-light);
 }
 
 #logs-container {
-    border: 1px solid #ccc;
-    height: 300px;
+    border: 2px solid var(--border-color);
+    height: 320px;
     overflow-y: auto;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    background: var(--surface-glass);
+    backdrop-filter: blur(15px);
+    transition: all var(--transition-normal) ease;
     scroll-behavior: smooth;
+    position: relative;
+
+    /* 自定义滚动条 */
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-light) transparent;
+}
+
+#logs-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#logs-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+#logs-container::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 10px;
+    transition: background var(--transition-fast) ease;
+}
+
+#logs-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
 }
 
 #logs-container:hover {
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px var(--shadow-color);
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
 }
 
 .log-entry {
-    font-size: 0.9em;
-    margin-bottom: 5px;
+    font-size: 0.85em;
+    margin-bottom: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid transparent;
+    transition: all var(--transition-fast) ease;
+    font-family: 'Orbitron', monospace;
+    font-weight: 400;
+}
+
+.log-entry:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(5px);
 }
 
 .log-entry.system {
-    color: #080; /* Green for system messages */
+    color: var(--success-color);
+    border-left-color: var(--success-color);
+    text-shadow: 0 0 10px rgba(6, 255, 165, 0.3);
 }
 
 .log-entry.user {
-    color: #008; /* Blue for user messages */
+    color: var(--primary-light);
+    border-left-color: var(--primary-light);
+    text-shadow: 0 0 10px rgba(199, 125, 255, 0.3);
 }
 
 .log-entry.ai {
-    color: #800; /* Red for AI messages */
+    color: var(--accent-color);
+    border-left-color: var(--accent-color);
+    text-shadow: 0 0 10px rgba(199, 125, 255, 0.3);
 }
 
 .log-entry .timestamp {
-    color: #888;
-    margin-right: 5px;
+    color: var(--text-secondary);
+    margin-right: var(--spacing-sm);
+    font-size: 0.8em;
+    opacity: 0.8;
 }
 
 .log-entry .emoji {
-    margin-right: 5px;
+    margin-right: var(--spacing-sm);
+    filter: drop-shadow(0 0 5px rgba(199, 125, 255, 0.5));
 }
 
 #message-input {
-    width: calc(100% - 100px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-right: 10px;
+    width: calc(100% - 120px);
+    padding: var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin-right: var(--spacing-md);
+    background: var(--surface-glass);
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    transition: all var(--transition-normal) ease;
+    outline: none;
+}
+
+#message-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+#message-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--glow-color);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* 果冻按钮基础样式 */
+.jelly-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: none;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all var(--transition-normal) ease;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--primary-light);
+    box-shadow: var(--jelly-shadow);
+
+    /* 3D果冻效果 */
+    transform: perspective(1000px) rotateX(0deg);
+}
+
+.jelly-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left var(--transition-slow) ease;
+}
+
+.jelly-button:hover::before {
+    left: 100%;
 }
 
 #send-button, #mic-button {
-    padding: 10px;
+    padding: var(--spacing-md) var(--spacing-lg);
     border: none;
-    border-radius: 4px;
-    background-color: #4285f4;
-    color: #fff;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--text-light);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal) ease;
     position: relative;
     overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--primary-light);
+    box-shadow: var(--jelly-shadow);
+    transform: perspective(1000px) rotateX(0deg);
 }
 
 #send-button:hover, #mic-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: perspective(1000px) rotateX(-5deg) translateY(-5px);
+    box-shadow: 0 15px 35px rgba(157, 78, 221, 0.4);
+    background: linear-gradient(135deg, var(--primary-light), var(--accent-color));
 }
 
 #send-button:active, #mic-button:active {
-    transform: translateY(1px);
+    transform: perspective(1000px) rotateX(5deg) translateY(2px);
+    box-shadow: 0 5px 15px rgba(157, 78, 221, 0.6);
 }
 
 #send-button::after, #mic-button::after {
@@ -115,10 +318,10 @@ body {
     left: 50%;
     width: 0;
     height: 0;
-    background: rgba(255, 255, 255, 0.2);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4), transparent);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
+    transition: width var(--transition-normal) ease, height var(--transition-normal) ease;
 }
 
 #send-button:active::after, #mic-button:active::after {
@@ -159,18 +362,54 @@ body {
 }
 
 #connect-button {
-    padding: 10px 20px;
-    margin-bottom: 10px;
+    padding: var(--spacing-md) var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
     border: none;
-    border-radius: 4px;
-    background-color: #34a853;
-    color: #fff;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--success-color), #00d4aa);
+    color: var(--text-light);
     cursor: pointer;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 2px solid rgba(6, 255, 165, 0.5);
+    box-shadow: 0 8px 25px rgba(6, 255, 165, 0.3);
+    transition: all var(--transition-normal) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#connect-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left var(--transition-slow) ease;
+}
+
+#connect-button:hover::before {
+    left: 100%;
+}
+
+#connect-button:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(6, 255, 165, 0.4);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 #connect-button.connected {
-    background-color: #ea4335;
+    background: linear-gradient(135deg, var(--danger-color), #ff4757);
+    border-color: rgba(255, 107, 157, 0.5);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+}
+
+#connect-button.connected:hover {
+    box-shadow: 0 12px 35px rgba(255, 107, 157, 0.4);
 }
 
 #video-container {
@@ -415,70 +654,290 @@ body {
 .audio-visualizers {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin: 10px 0;
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    background: var(--surface-glass);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--border-color);
+    backdrop-filter: blur(15px);
 }
 
 .visualizer-container {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: var(--spacing-sm);
+    position: relative;
 }
 
 .visualizer-container label {
-    font-size: 0.8em;
-    color: #666;
+    font-size: 11px;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 5px var(--glow-color);
 }
 
 #input-audio-visualizer,
 #audio-visualizer {
     width: 100%;
-    height: 20px;
-    background-color: #eee;
-    border-radius: 4px;
+    height: 30px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.1));
+    border-radius: var(--border-radius-sm);
     overflow: hidden;
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+#input-audio-visualizer::before,
+#audio-visualizer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%);
+    animation: scanLine 2s linear infinite;
+}
+
+@keyframes scanLine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
 #input-audio-visualizer .audio-bar {
     height: 100%;
-    background-color: #34a853; /* Green for input audio */
+    background: linear-gradient(135deg, var(--success-color), #00d4aa);
     width: 0%;
+    box-shadow: 0 0 15px rgba(6, 255, 165, 0.5);
+    transition: width 0.1s ease;
 }
 
 #audio-visualizer .audio-bar {
     height: 100%;
-    background-color: #4285f4; /* Blue for output audio */
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
     width: 0%;
+    box-shadow: 0 0 15px var(--glow-color);
+    transition: width 0.1s ease;
 }
 
-/* Update the animation for both visualizers */
+/* 增强的音频脉冲动画 */
 @keyframes audio-pulse {
     0% {
-        transform: scaleY(1);
+        transform: scaleY(1) scaleX(1);
+        filter: brightness(1);
+    }
+    25% {
+        transform: scaleY(1.3) scaleX(1.05);
+        filter: brightness(1.2);
     }
     50% {
-        transform: scaleY(1.5);
+        transform: scaleY(1.8) scaleX(1.1);
+        filter: brightness(1.5);
+    }
+    75% {
+        transform: scaleY(1.3) scaleX(1.05);
+        filter: brightness(1.2);
     }
     100% {
-        transform: scaleY(1);
+        transform: scaleY(1) scaleX(1);
+        filter: brightness(1);
     }
 }
 
 .audio-bar.active {
-    animation: audio-pulse 0.5s infinite;
+    animation: audio-pulse 0.4s ease-in-out infinite;
+    box-shadow: 0 0 20px currentColor;
+}
+
+/* 添加页面加载动画 */
+@keyframes pageLoad {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#app {
+    animation: pageLoad 0.8s ease-out;
+}
+
+/* 添加悬浮粒子效果 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(199, 125, 255, 0.3), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(157, 78, 221, 0.3), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(224, 170, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(199, 125, 255, 0.3), transparent),
+        radial-gradient(2px 2px at 160px 30px, rgba(157, 78, 221, 0.3), transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: particleFloat 20s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes particleFloat {
+    0% { transform: translateY(0px) translateX(0px); }
+    33% { transform: translateY(-10px) translateX(10px); }
+    66% { transform: translateY(5px) translateX(-5px); }
+    100% { transform: translateY(0px) translateX(0px); }
+}
+
+/* 应用标题样式 */
+.app-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--surface-glass);
+    backdrop-filter: blur(20px);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--border-color);
+    box-shadow: var(--jelly-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.app-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+        var(--primary-color),
+        var(--accent-color),
+        var(--primary-light),
+        var(--secondary-color));
+    animation: headerGlow 3s ease-in-out infinite;
+}
+
+@keyframes headerGlow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.app-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    color: var(--primary-color);
+    margin: 0;
+    text-shadow:
+        0 0 10px var(--glow-color),
+        0 0 20px var(--glow-color),
+        0 0 30px var(--glow-color);
+    animation: titlePulse 2s ease-in-out infinite alternate;
+    letter-spacing: 3px;
+}
+
+@keyframes titlePulse {
+    0% {
+        text-shadow:
+            0 0 10px var(--glow-color),
+            0 0 20px var(--glow-color),
+            0 0 30px var(--glow-color);
+    }
+    100% {
+        text-shadow:
+            0 0 15px var(--glow-color),
+            0 0 25px var(--glow-color),
+            0 0 35px var(--glow-color);
+    }
+}
+
+.title-icon {
+    display: inline-block;
+    animation: iconSpin 4s linear infinite;
+    margin: 0 var(--spacing-md);
+}
+
+@keyframes iconSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1); }
+    75% { transform: rotate(270deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.app-subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: var(--spacing-md) 0 0 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.8;
 }
 
 .settings {
-    margin-bottom: 10px;
+    margin-bottom: var(--spacing-lg);
     display: flex;
-    gap: 10px;
+    gap: var(--spacing-md);
+    align-items: center;
 }
 
 #api-key {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 300px;
+    padding: var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 350px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    transition: all var(--transition-normal) ease;
+    outline: none;
+}
+
+#api-key::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+#api-key:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--glow-color);
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+#config-toggle {
+    padding: var(--spacing-md);
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), var(--primary-light));
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all var(--transition-normal) ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--jelly-shadow);
+    border: 2px solid var(--primary-light);
+}
+
+#config-toggle:hover {
+    transform: rotate(180deg) scale(1.1);
+    box-shadow: 0 8px 25px var(--glow-color);
 }
 
 #voice-select  #response-type-select{
@@ -490,48 +949,144 @@ body {
 /* Configuration panel */
 #config-container {
     background: var(--surface-color);
-    padding: var(--spacing-lg);
+    backdrop-filter: blur(20px);
+    padding: var(--spacing-xl);
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--jelly-shadow);
+    border: 2px solid var(--border-color);
     display: none;
+    margin-bottom: var(--spacing-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+#config-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-light));
+    animation: configGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes configGlow {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
 }
 
 #config-container.active {
     display: block;
+    animation: slideIn var(--transition-normal) ease;
 }
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .config-wrapper {
     display: grid;
-    gap: var(--spacing-md);
-    max-width: 600px;
+    gap: var(--spacing-lg);
+    max-width: 700px;
     margin: 0 auto;
 }
+
 #apply-config {
-    padding: var(--spacing-md);
-    background-color: var(--primary-color);
-    color: white;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--text-light);
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-normal) ease;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--primary-light);
+    box-shadow: var(--jelly-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+#apply-config::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left var(--transition-slow) ease;
+}
+
+#apply-config:hover::before {
+    left: 100%;
 }
 
 #apply-config:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px var(--glow-color);
 }
 
 #system-instruction {
-    padding: var(--spacing-md);
-    border: 1px solid var(--border-color);
+    padding: var(--spacing-lg);
+    border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 14px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+    font-family: 'Orbitron', monospace;
+    transition: all var(--transition-normal) ease;
+    outline: none;
+    resize: vertical;
+    min-height: 120px;
 }
 
-/* Responsive styles */
+#system-instruction::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+#system-instruction:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px var(--glow-color);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* 响应式设计 - 移动端优化 */
 @media (max-width: 768px) {
-    #app {
+    body {
         padding: var(--spacing-sm);
-        width: 96%;
+    }
+
+    .app-header {
+        margin-bottom: var(--spacing-lg);
+        padding: var(--spacing-md);
+    }
+
+    .app-title {
+        font-size: 16px;
+        letter-spacing: 2px;
+    }
+
+    .app-subtitle {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    #app {
+        padding: var(--spacing-lg);
+        width: 95%;
     }
 
     .hidden-mobile {
@@ -546,15 +1101,25 @@ body {
         bottom: 0;
         z-index: 1000;
         transform: translateX(100%);
-        transition: transform 0.3s ease;
+        transition: transform var(--transition-normal) ease;
         overflow-y: auto;
         display: block;
         background: var(--surface-color);
         padding: var(--spacing-lg);
+        backdrop-filter: blur(20px);
     }
 
     #config-container.active {
         transform: translateX(0);
+    }
+
+    .settings {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #api-key {
+        width: 100%;
     }
 
     .logs-wrapper {
@@ -563,6 +1128,7 @@ body {
 
     #logs-container {
         max-height: calc(30vh - 50px);
+        height: 250px;
     }
 
     .input-controls {
@@ -570,44 +1136,217 @@ body {
         bottom: 0;
         background: var(--surface-color);
         padding: var(--spacing-md);
-        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -2px 8px var(--shadow-color);
         z-index: 100;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
     }
 
     .action-buttons {
         flex-wrap: wrap;
         justify-content: center;
+        gap: var(--spacing-sm);
     }
 
     #video-container {
-        width: 60%;
+        width: 70%;
         max-height: 40vh;
-        bottom: 0;
-        right: 0;
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
     }
 
     #screen-container {
-        width: 100%;
+        width: 95%;
         height: 50vh;
-        bottom: 0;
-        left: 0;
+        bottom: var(--spacing-md);
+        left: 50%;
+        transform: translateX(-50%);
         right: auto;
     }
+
+    /* 移动端按钮优化 */
+    #send-button, #mic-button, #camera-button, #screen-button {
+        padding: var(--spacing-md);
+        font-size: 8px;
+    }
+
+    #connect-button {
+        font-size: 10px;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
 }
+
+/* 平板端优化 */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .app-title {
+        font-size: 20px;
+    }
+
+    #app {
+        width: 90%;
+    }
+}
+
+/* 添加一些特殊效果 */
+.jelly-bounce {
+    animation: jellyBounce 0.6s ease;
+}
+
+@keyframes jellyBounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.05); }
+    50% { transform: scale(0.95); }
+    70% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* 鼠标悬停时的全局效果 */
+*:hover {
+    transition: all var(--transition-fast) ease;
+}
+
+/* 选中文本的样式 */
+::selection {
+    background: var(--primary-light);
+    color: var(--text-light);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+::-moz-selection {
+    background: var(--primary-light);
+    color: var(--text-light);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* 滚动条全局样式 */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--surface-glass);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--primary-light), var(--accent-color));
+}
+
+/* 加载状态指示器 */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(199, 125, 255, 0.4),
+        transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* 成功状态指示器 */
+.success {
+    border-color: var(--success-color) !important;
+    box-shadow: 0 0 20px rgba(6, 255, 165, 0.4) !important;
+}
+
+/* 错误状态指示器 */
+.error {
+    border-color: var(--danger-color) !important;
+    box-shadow: 0 0 20px rgba(255, 107, 157, 0.4) !important;
+}
+
+/* 禁用状态 */
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+/* 添加一些微妙的动画延迟，让页面加载更有层次感 */
+.settings { animation-delay: 0.1s; }
+#config-container { animation-delay: 0.2s; }
+#connect-button { animation-delay: 0.3s; }
+#logs-container { animation-delay: 0.4s; }
+.audio-visualizers { animation-delay: 0.5s; }
 
 .setting-container {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--surface-glass);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-fast) ease;
+}
+
+.setting-container:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--primary-light);
+    transform: translateX(5px);
 }
 
 .setting-label {
     font-size: 12px;
     font-weight: bold;
+    font-family: 'Press Start 2P', monospace;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    min-width: 120px;
+    text-shadow: 0 0 5px var(--glow-color);
 }
 
+/* 美化选择框和输入框 */
+select, input[type="number"] {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    background: var(--surface-glass);
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    transition: all var(--transition-normal) ease;
+    outline: none;
+    cursor: pointer;
+}
+
+select:focus, input[type="number"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px var(--glow-color);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+select:hover, input[type="number"]:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+}
 
 .fps-help {
-    color: #666;
-    font-size: 12px;
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-family: 'Orbitron', monospace;
+    opacity: 0.8;
+    font-style: italic;
 }
