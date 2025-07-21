@@ -571,3 +571,125 @@ function stopScreenSharing() {
 
 screenButton.addEventListener('click', handleScreenShare);
 screenButton.disabled = true;
+
+// 🥚 安醇蛋蛋蛋 彩蛋功能
+let easterEggClickCount = 0;
+let easterEggTimeout = null;
+
+function initEasterEgg() {
+    const configToggle = document.getElementById('config-toggle');
+    const easterEggOverlay = document.getElementById('easter-egg-overlay');
+    const heartsContainer = document.getElementById('hearts-container');
+
+    configToggle.addEventListener('click', () => {
+        easterEggClickCount++;
+
+        // 重置计时器
+        if (easterEggTimeout) {
+            clearTimeout(easterEggTimeout);
+        }
+
+        // 5秒内没有点击就重置计数
+        easterEggTimeout = setTimeout(() => {
+            easterEggClickCount = 0;
+        }, 5000);
+
+        // 点击5次触发彩蛋
+        if (easterEggClickCount === 5) {
+            triggerEasterEgg();
+            easterEggClickCount = 0;
+        }
+    });
+
+    function triggerEasterEgg() {
+        Logger.log('🥚 Easter Egg Activated: 安醇蛋蛋蛋!');
+
+        // 显示彩蛋覆盖层
+        easterEggOverlay.classList.remove('easter-egg-hidden');
+
+        // 创建爱心雨
+        createHeartRain();
+
+        // 播放音效（如果有的话）
+        playEasterEggSound();
+
+        // 不自动关闭，只能点击退出
+        Logger.log('💗 Click anywhere to close the easter egg!');
+    }
+
+    function createHeartRain() {
+        const hearts = ['💗', '💖', '💕', '💓', '💝', '💘', '💞', '💟', '❤️', '🧡', '💛', '💚', '💙', '💜', '🤍', '🖤'];
+
+        // 创建100个爱心
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                createHeart();
+            }, i * 100);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+
+            // 随机位置
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+
+            // 随机动画时长
+            const duration = Math.random() * 3 + 2; // 2-5秒
+            heart.style.animationDuration = duration + 's';
+
+            // 随机延迟
+            heart.style.animationDelay = Math.random() * 2 + 's';
+
+            heartsContainer.appendChild(heart);
+
+            // 动画结束后移除元素
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.parentNode.removeChild(heart);
+                }
+            }, (duration + 2) * 1000);
+        }
+    }
+
+    function playEasterEggSound() {
+        // 创建音效（可选）
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); // E5
+            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.4); // G5
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.6);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.6);
+        } catch (e) {
+            // 音效播放失败，忽略
+        }
+    }
+
+    function hideEasterEgg() {
+        easterEggOverlay.classList.add('easter-egg-hidden');
+
+        // 清除所有爱心
+        setTimeout(() => {
+            heartsContainer.innerHTML = '';
+        }, 500);
+    }
+
+    // 点击彩蛋覆盖层也可以关闭
+    easterEggOverlay.addEventListener('click', hideEasterEgg);
+}
+
+// 初始化彩蛋功能
+initEasterEgg();

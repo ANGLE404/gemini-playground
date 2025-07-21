@@ -3,31 +3,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
 :root {
-    /* 淡紫色果冻风格配色方案 */
-    --primary-color: #9d4edd;
-    --primary-light: #c77dff;
-    --primary-dark: #7b2cbf;
-    --secondary-color: #e0aaff;
-    --accent-color: #c77dff;
-    --danger-color: #ff6b9d;
-    --success-color: #06ffa5;
-    --warning-color: #ffbe0b;
+    /* 柔和深色紫色配色方案 - 护眼版 */
+    --primary-color: #6b46c1;
+    --primary-light: #8b5cf6;
+    --primary-dark: #553c9a;
+    --secondary-color: #a78bfa;
+    --accent-color: #7c3aed;
+    --danger-color: #ef4444;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
 
-    /* 背景渐变色 */
-    --background-gradient: linear-gradient(135deg, #f8f0ff 0%, #e8d5ff 50%, #d4c5ff 100%);
-    --surface-color: rgba(255, 255, 255, 0.85);
-    --surface-glass: rgba(255, 255, 255, 0.15);
-    --border-color: rgba(157, 78, 221, 0.3);
+    /* 深色背景渐变 - 护眼 */
+    --background-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+    --surface-color: rgba(30, 27, 75, 0.9);
+    --surface-glass: rgba(139, 92, 246, 0.1);
+    --border-color: rgba(139, 92, 246, 0.2);
 
-    /* 文字颜色 */
-    --text-color: #2d1b69;
-    --text-secondary: #6b46c1;
-    --text-light: rgba(255, 255, 255, 0.9);
+    /* 柔和文字颜色 */
+    --text-color: #e2e8f0;
+    --text-secondary: #a78bfa;
+    --text-light: rgba(255, 255, 255, 0.95);
 
-    /* 阴影效果 */
-    --shadow-color: rgba(157, 78, 221, 0.2);
-    --glow-color: rgba(199, 125, 255, 0.4);
-    --jelly-shadow: 0 8px 32px rgba(157, 78, 221, 0.3);
+    /* 柔和阴影效果 */
+    --shadow-color: rgba(139, 92, 246, 0.15);
+    --glow-color: rgba(139, 92, 246, 0.2);
+    --jelly-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
 
     /* 圆角和间距 */
     --border-radius: 20px;
@@ -217,12 +217,19 @@ body::before {
     filter: drop-shadow(0 0 5px rgba(199, 125, 255, 0.5));
 }
 
+/* 输入区域布局 */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+}
+
 #message-input {
-    width: calc(100% - 120px);
+    width: 100%;
     padding: var(--spacing-md);
     border: 2px solid var(--border-color);
     border-radius: var(--border-radius);
-    margin-right: var(--spacing-md);
     background: var(--surface-glass);
     backdrop-filter: blur(10px);
     color: var(--text-color);
@@ -238,10 +245,10 @@ body::before {
 }
 
 #message-input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 20px var(--glow-color);
-    transform: translateY(-2px);
-    background: rgba(255, 255, 255, 0.25);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 15px var(--glow-color);
+    transform: translateY(-1px);
+    background: rgba(139, 92, 246, 0.1);
 }
 
 /* 果冻按钮基础样式 */
@@ -281,8 +288,19 @@ body::before {
     left: 100%;
 }
 
-#send-button, #mic-button {
-    padding: var(--spacing-md) var(--spacing-lg);
+/* 按钮容器布局 */
+.button-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: var(--spacing-md) 0;
+}
+
+/* 统一的按钮基础样式 */
+.unified-button {
+    padding: var(--spacing-md);
     border: none;
     border-radius: var(--border-radius);
     background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
@@ -298,20 +316,92 @@ body::before {
     border: 2px solid var(--primary-light);
     box-shadow: var(--jelly-shadow);
     transform: perspective(1000px) rotateX(0deg);
+    min-width: 60px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#send-button:hover, #mic-button:hover {
-    transform: perspective(1000px) rotateX(-5deg) translateY(-5px);
-    box-shadow: 0 15px 35px rgba(157, 78, 221, 0.4);
+#send-button, #mic-button, #camera-button, #screen-button {
+    padding: var(--spacing-md);
+    border: none;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all var(--transition-normal) ease;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--border-color);
+    box-shadow:
+        var(--jelly-shadow),
+        0 0 15px rgba(138, 43, 226, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: perspective(1000px) rotateX(0deg);
+    min-width: 60px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+    backdrop-filter: blur(10px);
+}
+
+/* 确保按钮内的图标正确居中 */
+#mic-button .material-symbols-outlined,
+#camera-button .material-symbols-outlined,
+#screen-button .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+    display: block;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* 确保按钮本身的内容居中 */
+#mic-button, #camera-button, #screen-button {
+    padding: var(--spacing-md);
+    line-height: 1;
+}
+
+/* 修复可能的布局问题 */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+    /* 移除 pointer-events: none 以确保按钮可点击 */
+}
+
+#send-button {
+    padding: var(--spacing-md) var(--spacing-xl);
+    min-width: 120px;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+#send-button:hover, #mic-button:hover, #camera-button:hover, #screen-button:hover {
+    transform: perspective(1000px) rotateX(-5deg) translateY(-5px) scale(1.05);
+    box-shadow:
+        0 15px 35px var(--shadow-color),
+        0 0 25px rgba(138, 43, 226, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     background: linear-gradient(135deg, var(--primary-light), var(--accent-color));
+    border-color: var(--accent-color);
 }
 
-#send-button:active, #mic-button:active {
-    transform: perspective(1000px) rotateX(5deg) translateY(2px);
-    box-shadow: 0 5px 15px rgba(157, 78, 221, 0.6);
+#send-button:active, #mic-button:active, #camera-button:active, #screen-button:active {
+    transform: perspective(1000px) rotateX(2deg) translateY(1px);
+    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-#send-button::after, #mic-button::after {
+#send-button::after, #mic-button::after, #camera-button::after, #screen-button::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -324,7 +414,7 @@ body::before {
     transition: width var(--transition-normal) ease, height var(--transition-normal) ease;
 }
 
-#send-button:active::after, #mic-button:active::after {
+#send-button:active::after, #mic-button:active::after, #camera-button:active::after, #screen-button:active::after {
     width: 200px;
     height: 200px;
 }
@@ -366,7 +456,7 @@ body::before {
     margin-bottom: var(--spacing-lg);
     border: none;
     border-radius: var(--border-radius);
-    background: linear-gradient(135deg, var(--success-color), #00d4aa);
+    background: linear-gradient(135deg, var(--success-color), #059669);
     color: var(--text-light);
     cursor: pointer;
     font-family: 'Press Start 2P', monospace;
@@ -374,8 +464,8 @@ body::before {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
-    border: 2px solid rgba(6, 255, 165, 0.5);
-    box-shadow: 0 8px 25px rgba(6, 255, 165, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
     transition: all var(--transition-normal) ease;
     position: relative;
     overflow: hidden;
@@ -455,48 +545,11 @@ body::before {
     transition: background-color 0.3s ease;
 }
 
-#camera-button {
-    background: #4285f4;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-left: 8px;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-#camera-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-#camera-button:active {
-    transform: translateY(1px);
-}
-
-#camera-button::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-}
-
-#camera-button:active::after {
-    width: 200px;
-    height: 200px;
-}
-
+/* 激活状态的特殊样式 */
 #camera-button.active {
-    background: #ea4335;
+    background: linear-gradient(135deg, var(--danger-color), #ff4757);
+    border-color: rgba(255, 107, 157, 0.5);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
 }
 
 #frame-preview {
@@ -550,48 +603,10 @@ body::before {
     opacity: 1;
 }
 
-#screen-button {
-    background: #4285f4;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-left: 8px;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-#screen-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-#screen-button:active {
-    transform: translateY(1px);
-}
-
-#screen-button::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease;
-}
-
-#screen-button:active::after {
-    width: 200px;
-    height: 200px;
-}
-
 #screen-button.active {
-    background: #ea4335;
+    background: linear-gradient(135deg, var(--warning-color), #ffa502);
+    border-color: rgba(255, 190, 11, 0.5);
+    box-shadow: 0 8px 25px rgba(255, 190, 11, 0.3);
 }
 
 /* Add styles for screen preview */
@@ -836,28 +851,25 @@ body::after {
 .app-title {
     font-family: 'Press Start 2P', monospace;
     font-size: 24px;
-    color: var(--primary-color);
+    color: var(--text-light);
     margin: 0;
     text-shadow:
-        0 0 10px var(--glow-color),
-        0 0 20px var(--glow-color),
-        0 0 30px var(--glow-color);
-    animation: titlePulse 2s ease-in-out infinite alternate;
+        0 0 8px var(--glow-color),
+        0 0 15px var(--glow-color);
+    animation: titlePulse 3s ease-in-out infinite alternate;
     letter-spacing: 3px;
 }
 
 @keyframes titlePulse {
     0% {
         text-shadow:
-            0 0 10px var(--glow-color),
-            0 0 20px var(--glow-color),
-            0 0 30px var(--glow-color);
+            0 0 8px var(--glow-color),
+            0 0 15px var(--glow-color);
     }
     100% {
         text-shadow:
-            0 0 15px var(--glow-color),
-            0 0 25px var(--glow-color),
-            0 0 35px var(--glow-color);
+            0 0 12px var(--glow-color),
+            0 0 20px var(--glow-color);
     }
 }
 
@@ -883,6 +895,241 @@ body::after {
     text-transform: uppercase;
     letter-spacing: 2px;
     opacity: 0.8;
+}
+
+/* AYC404 彩虹彩蛋样式 */
+.rainbow-easter-egg {
+    margin-top: var(--spacing-md);
+    text-align: center;
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.rainbow-text {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    font-weight: bold;
+    background: linear-gradient(
+        45deg,
+        #ff0000, #ff4500, #ffa500, #ffff00, #adff2f,
+        #00ff00, #00ffff, #0080ff, #0000ff, #8000ff,
+        #ff00ff, #ff0080, #ff0000
+    );
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rainbowFlow 4s ease-in-out infinite;
+    letter-spacing: 4px;
+    display: inline-block;
+    position: relative;
+    text-transform: uppercase;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
+
+@keyframes rainbowFlow {
+    0%, 100% {
+        background-position: 0% 50%;
+        transform: scale(1);
+    }
+    25% {
+        background-position: 25% 50%;
+        transform: scale(1.02);
+    }
+    50% {
+        background-position: 100% 50%;
+        transform: scale(1.05);
+    }
+    75% {
+        background-position: 75% 50%;
+        transform: scale(1.02);
+    }
+}
+
+.rainbow-text::before {
+    content: 'AYC404';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        #ff0000, #ff4500, #ffa500, #ffff00, #adff2f,
+        #00ff00, #00ffff, #0080ff, #0000ff, #8000ff,
+        #ff00ff, #ff0080, #ff0000
+    );
+    background-size: 600% 600%;
+    border-radius: 12px;
+    z-index: -1;
+    animation: rainbowFlow 4s ease-in-out infinite;
+    opacity: 0.2;
+    filter: blur(12px);
+    transform: scale(1.1);
+}
+
+.rainbow-text::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(
+        90deg,
+        transparent, rgba(255, 255, 255, 0.1), transparent
+    );
+    border-radius: 12px;
+    animation: shimmer 2s linear infinite;
+    z-index: -1;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* 安醇蛋蛋蛋 彩蛋样式 */
+#easter-egg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(45deg,
+        rgba(255, 20, 147, 0.9),
+        rgba(255, 105, 180, 0.9),
+        rgba(255, 182, 193, 0.9),
+        rgba(255, 20, 147, 0.9));
+    background-size: 400% 400%;
+    animation: loveBackground 3s ease-in-out infinite;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.5s ease;
+}
+
+.easter-egg-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+}
+
+.easter-egg-content {
+    text-align: center;
+    z-index: 10001;
+    position: relative;
+}
+
+.easter-egg-text {
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 52px;
+    color: #fff;
+    text-shadow:
+        0 0 25px rgba(255, 255, 255, 1),
+        0 0 50px rgba(255, 20, 147, 0.8),
+        0 0 75px rgba(255, 105, 180, 0.6),
+        2px 2px 0px #000,
+        -2px -2px 0px #000,
+        2px -2px 0px #000,
+        -2px 2px 0px #000;
+    animation: easterEggPulse 2s ease-in-out infinite;
+    margin-bottom: 30px;
+    letter-spacing: 6px;
+    font-weight: normal;
+    text-transform: none;
+    line-height: 1.2;
+    user-select: none;
+}
+
+.easter-egg-subtitle {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: easterEggFloat 3s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+.easter-egg-hint {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow:
+        0 0 15px rgba(255, 255, 255, 0.6),
+        1px 1px 0px #000,
+        -1px -1px 0px #000,
+        1px -1px 0px #000,
+        -1px 1px 0px #000;
+    animation: easterEggBlink 1.5s ease-in-out infinite;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+@keyframes easterEggBlink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.5; }
+}
+
+#hearts-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    font-size: 30px;
+    color: #ff1493;
+    animation: heartFall linear infinite;
+    text-shadow: 0 0 10px rgba(255, 20, 147, 0.8);
+}
+
+@keyframes loveBackground {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes easterEggPulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow:
+            0 0 20px rgba(255, 255, 255, 0.8),
+            0 0 40px rgba(255, 20, 147, 0.6),
+            0 0 60px rgba(255, 105, 180, 0.4);
+    }
+    50% {
+        transform: scale(1.1);
+        text-shadow:
+            0 0 30px rgba(255, 255, 255, 1),
+            0 0 60px rgba(255, 20, 147, 0.8),
+            0 0 90px rgba(255, 105, 180, 0.6);
+    }
+}
+
+@keyframes easterEggFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes heartFall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .settings {
@@ -933,6 +1180,20 @@ body::after {
     justify-content: center;
     box-shadow: var(--jelly-shadow);
     border: 2px solid var(--primary-light);
+    font-size: 20px;
+    position: relative;
+}
+
+#config-toggle .gear-icon {
+    font-family: 'Material Symbols Outlined';
+    font-size: 20px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    width: 100%;
+    height: 100%;
 }
 
 #config-toggle:hover {

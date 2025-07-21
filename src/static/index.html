@@ -26,12 +26,18 @@
             <span class="title-icon">🌟</span>
         </h1>
         <p class="app-subtitle">Multimodal AI Interface • Jelly Style • Pixel Perfect</p>
+        <!-- AYC404 彩虹彩蛋 -->
+        <div class="rainbow-easter-egg">
+            <span class="rainbow-text">AYC404</span>
+        </div>
     </div>
 
     <div id="app">
         <div class="settings">
             <input type="password" id="api-key" placeholder="Please Input Gemini API Key" />
-            <button id="config-toggle" class="material-symbols-outlined">settings</button>
+            <button id="config-toggle" class="material-symbols-outlined" title="Settings" aria-label="Settings">
+                <span class="gear-icon">settings</span>
+            </button>
         </div>
         <div id="config-container" class="hidden-mobile">
             <div class="config-wrapper">
@@ -68,17 +74,21 @@
         </div>
         <button id="connect-button">Connect</button>
         <div id="logs-container"></div>
-        <input type="text" id="message-input" placeholder="Enter message...">
-        <button id="send-button">Send</button>
-        <button id="mic-button">
-            <span id="mic-icon" class="material-symbols-outlined">mic</span>
-        </button>
-        <button id="camera-button">
-            <span id="camera-icon" class="material-symbols-outlined">videocam</span>
-        </button>
-        <button id="screen-button">
-            <span id="screen-icon" class="material-symbols-outlined">screen_share</span>
-        </button>
+        <div class="input-section">
+            <input type="text" id="message-input" placeholder="Enter message...">
+            <div class="button-container">
+                <button id="send-button">SEND 发送</button>
+                <button id="mic-button">
+                    <span id="mic-icon" class="material-symbols-outlined">mic</span>
+                </button>
+                <button id="camera-button">
+                    <span id="camera-icon" class="material-symbols-outlined">videocam</span>
+                </button>
+                <button id="screen-button">
+                    <span id="screen-icon" class="material-symbols-outlined">screen_share</span>
+                </button>
+            </div>
+        </div>
         <div class="audio-visualizers">
             <div class="visualizer-container">
                 <label>Input Audio</label>
@@ -103,6 +113,17 @@
             <button class="close-button material-symbols-outlined">close</button>
         </div>
     </div>
+
+    <!-- 隐藏彩蛋 - 安醇蛋蛋蛋 -->
+    <div id="easter-egg-overlay" class="easter-egg-hidden">
+        <div class="easter-egg-content">
+            <div class="easter-egg-text">安醇蛋蛋蛋</div>
+            <div class="easter-egg-subtitle">🥚 Hidden Easter Egg Activated! 🥚</div>
+            <div class="easter-egg-hint">💗 Click anywhere to close 💗</div>
+        </div>
+        <div id="hearts-container"></div>
+    </div>
+
     <script src="js/main.js" type="module"></script>
 </body>
 </html>
