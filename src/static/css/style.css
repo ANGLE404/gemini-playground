@@ -1,46 +1,57 @@
-/* 导入像素字体 */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+/*
+===========================================
+GEMINI AI LIVE - 样式文件
+===========================================
+作者: AYC404 (基于ChrisKyle的原始项目)
+功能: 提供完整的UI样式，包括果冻效果、彩虹文字、彩蛋动画等
+特色: 像素风格 + 科技感 + 护眼深色主题
+===========================================
+*/
 
+/* 字体资源导入 */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* 像素风格字体，用于标题和彩蛋 */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap'); /* 科技感字体，用于界面文字 */
+
+/* CSS变量定义 - 全局设计系统 */
 :root {
-    /* 柔和深色紫色配色方案 - 护眼版 */
-    --primary-color: #6b46c1;
-    --primary-light: #8b5cf6;
-    --primary-dark: #553c9a;
-    --secondary-color: #a78bfa;
-    --accent-color: #7c3aed;
-    --danger-color: #ef4444;
-    --success-color: #10b981;
-    --warning-color: #f59e0b;
+    /* 主色调系统 - 深紫色护眼配色方案 */
+    --primary-color: #6b46c1;      /* 主要紫色 - 用于按钮背景 */
+    --primary-light: #8b5cf6;      /* 浅紫色 - 用于悬停效果 */
+    --primary-dark: #553c9a;       /* 深紫色 - 用于阴影和边框 */
+    --secondary-color: #a78bfa;    /* 次要紫色 - 用于文字和装饰 */
+    --accent-color: #7c3aed;       /* 强调色 - 用于高亮和特效 */
+    --danger-color: #ef4444;       /* 危险色 - 用于错误提示 */
+    --success-color: #10b981;      /* 成功色 - 用于成功状态 */
+    --warning-color: #f59e0b;      /* 警告色 - 用于警告提示 */
 
-    /* 深色背景渐变 - 护眼 */
-    --background-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
-    --surface-color: rgba(30, 27, 75, 0.9);
-    --surface-glass: rgba(139, 92, 246, 0.1);
-    --border-color: rgba(139, 92, 246, 0.2);
+    /* 背景色系统 - 深色护眼主题 */
+    --background-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%); /* 主背景渐变 */
+    --surface-color: rgba(30, 27, 75, 0.9);    /* 表面颜色 - 用于卡片背景 */
+    --surface-glass: rgba(139, 92, 246, 0.1);  /* 毛玻璃效果 - 用于半透明元素 */
+    --border-color: rgba(139, 92, 246, 0.2);   /* 边框颜色 - 用于分割线和边框 */
 
-    /* 柔和文字颜色 */
-    --text-color: #e2e8f0;
-    --text-secondary: #a78bfa;
-    --text-light: rgba(255, 255, 255, 0.95);
+    /* 文字颜色系统 - 高对比度易读 */
+    --text-color: #e2e8f0;                     /* 主要文字颜色 - 浅灰色 */
+    --text-secondary: #a78bfa;                 /* 次要文字颜色 - 紫色 */
+    --text-light: rgba(255, 255, 255, 0.95);  /* 高亮文字颜色 - 近白色 */
 
-    /* 柔和阴影效果 */
-    --shadow-color: rgba(139, 92, 246, 0.15);
-    --glow-color: rgba(139, 92, 246, 0.2);
-    --jelly-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+    /* 阴影和发光效果系统 */
+    --shadow-color: rgba(139, 92, 246, 0.15);  /* 阴影颜色 - 用于元素阴影 */
+    --glow-color: rgba(139, 92, 246, 0.2);     /* 发光颜色 - 用于悬停发光 */
+    --jelly-shadow: 0 8px 32px rgba(139, 92, 246, 0.2); /* 果冻阴影 - 主要阴影效果 */
 
-    /* 圆角和间距 */
-    --border-radius: 20px;
-    --border-radius-sm: 12px;
-    --spacing-sm: 8px;
-    --spacing-md: 16px;
-    --spacing-lg: 24px;
-    --spacing-xl: 32px;
+    /* 尺寸系统 - 统一的圆角和间距 */
+    --border-radius: 20px;      /* 大圆角 - 用于主要元素 */
+    --border-radius-sm: 12px;   /* 小圆角 - 用于小元素 */
+    --spacing-sm: 8px;          /* 小间距 */
+    --spacing-md: 16px;         /* 中等间距 */
+    --spacing-lg: 24px;         /* 大间距 */
+    --spacing-xl: 32px;         /* 超大间距 */
 
-    /* 动画时间 */
-    --transition-fast: 0.2s;
-    --transition-normal: 0.3s;
-    --transition-slow: 0.5s;
+    /* 动画时间系统 - 统一的过渡效果 */
+    --transition-fast: 0.2s;    /* 快速动画 - 用于按钮点击 */
+    --transition-normal: 0.3s;  /* 正常动画 - 用于悬停效果 */
+    --transition-slow: 0.5s;    /* 慢速动画 - 用于复杂过渡 */
 }
 
 body {

@@ -1,66 +1,96 @@
 <!--
-//Author: ChrisKyle
-//Project: https://github.com/ViaAnthroposBenevolentia/gemini-2-live-api-demo
-//MIT License : https://github.com/ViaAnthroposBenevolentia/gemini-2-live-api-demo/blob/main/LICENSE
+项目信息注释块
+Author: ChrisKyle - 原始项目作者
+Project: https://github.com/ViaAnthroposBenevolentia/gemini-2-live-api-demo - 项目源码地址
+MIT License: 开源许可证，允许自由使用和修改
+本版本由AYC404进行了大量UI美化和功能增强
 -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> <!-- 设置页面语言为英文 -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✨ Gemini Multimodal Live API Client ✨</title>
+    <!-- 页面元数据配置区域 -->
+    <meta charset="UTF-8"> <!-- 字符编码：UTF-8支持中文和特殊字符 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 响应式设计：适配手机和平板 -->
+    <title>✨ Gemini Multimodal Live API Client ✨</title> <!-- 浏览器标签页标题 -->
+
+    <!-- 外部字体和图标资源引入 -->
+    <!-- Material Icons：Google图标字体，用于按钮图标（设置、麦克风、摄像头等） -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Press Start 2P：像素风格字体，用于标题、彩蛋文字，营造复古游戏感 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
+
+    <!-- Orbitron：科技感字体，用于副标题和按钮文字，营造未来科技感 -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap">
+
+    <!-- 主样式文件：包含所有UI设计、动画效果、彩蛋样式 -->
     <link rel="stylesheet" href="css/style.css">
-    <meta name="theme-color" content="#9d4edd">
-    <meta name="description" content="Beautiful jelly-style Gemini AI interface with pixel fonts">
+
+    <!-- PWA相关元数据 -->
+    <meta name="theme-color" content="#9d4edd"> <!-- 浏览器主题色：紫色 -->
+    <meta name="description" content="Beautiful jelly-style Gemini AI interface with pixel fonts"> <!-- 页面描述 -->
 </head>
-<body>
-    <!-- 添加标题和装饰 -->
+<body> <!-- 页面主体开始 -->
+    <!-- 应用标题区域：包含主标题、副标题和彩虹彩蛋 -->
     <div class="app-header">
+        <!-- 主标题：使用像素字体，带有星星装饰和发光动画 -->
         <h1 class="app-title">
-            <span class="title-icon">🌟</span>
-            GEMINI AI LIVE
-            <span class="title-icon">🌟</span>
+            <span class="title-icon">🌟</span> <!-- 左侧星星图标，有旋转动画 -->
+            GEMINI AI LIVE <!-- 主标题文字 -->
+            <span class="title-icon">🌟</span> <!-- 右侧星星图标，有旋转动画 -->
         </h1>
+
+        <!-- 副标题：描述应用特色，使用科技感字体 -->
         <p class="app-subtitle">Multimodal AI Interface • Jelly Style • Pixel Perfect</p>
-        <!-- AYC404 彩虹彩蛋 -->
+
+        <!-- AYC404 彩虹文字彩蛋：12色渐变流动效果 -->
         <div class="rainbow-easter-egg">
-            <span class="rainbow-text">AYC404</span>
+            <span class="rainbow-text">AYC404</span> <!-- 彩虹渐变文字，有缩放和流动动画 -->
         </div>
     </div>
 
+    <!-- 应用主容器：包含所有功能组件 -->
     <div id="app">
+        <!-- 顶部设置区域：API密钥输入和设置按钮 -->
         <div class="settings">
+            <!-- API密钥输入框：用户输入Gemini API密钥，密码类型隐藏输入内容 -->
             <input type="password" id="api-key" placeholder="Please Input Gemini API Key" />
+
+            <!-- 设置按钮：点击5次触发隐藏彩蛋，只显示齿轮图标 -->
             <button id="config-toggle" class="material-symbols-outlined" title="Settings" aria-label="Settings">
-                <span class="gear-icon">settings</span>
+                <span class="gear-icon">settings</span> <!-- 齿轮图标，有旋转悬停效果 -->
             </button>
         </div>
+        <!-- 配置面板：包含各种设置选项，在移动设备上隐藏 -->
         <div id="config-container" class="hidden-mobile">
             <div class="config-wrapper">
+                <!-- 语言设置：选择语音识别和合成的语言 -->
                 <div class="setting-container">
                     <span class="setting-label">Language: </span>
                     <select id="language-select">
+                        <!-- 语言选项通过JavaScript动态加载，支持多种语言 -->
                     </select>
                 </div>
+
+                <!-- 声音设置：选择AI回复的声音类型 -->
                 <div class="setting-container">
                     <span class="setting-label">Sound: </span>
                     <select id="voice-select">
-                        <option value="Puck">Puck (Male)</option>
+                        <option value="Puck">Puck (Male)</option> <!-- 男性声音选项 -->
                         <option value="Charon">Charon (Male)</option>
                         <option value="Fenrir">Fenrir (Male)</option>
-                        <option value="Kore">Kore (Female)</option>
-                        <option value="Aoede" selected>Aoede (Female)</option>
+                        <option value="Kore">Kore (Female)</option> <!-- 女性声音选项 -->
+                        <option value="Aoede" selected>Aoede (Female)</option> <!-- 默认选中 -->
                     </select>
                 </div>
+
+                <!-- 回复类型设置：选择文字回复或语音回复 -->
                 <div class="setting-container">
                     <span class="setting-label">Response Type: </span>
                     <select id="response-type-select">
-                        <option value="text">Text</option>
-                        <option value="audio" selected>Audio</option>
+                        <option value="text">Text</option> <!-- 纯文字回复 -->
+                        <option value="audio" selected>Audio</option> <!-- 语音回复（默认） -->
                     </select>
                 </div>
                 <div class="setting-container">

@@ -1,33 +1,54 @@
-import { MultimodalLiveClient } from './core/websocket-client.js';
-import { AudioStreamer } from './audio/audio-streamer.js';
-import { AudioRecorder } from './audio/audio-recorder.js';
-import { CONFIG } from './config/config.js';
-import { Logger } from './utils/logger.js';
-import { VideoManager } from './video/video-manager.js';
-import { ScreenRecorder } from './video/screen-recorder.js';
-import { languages } from './language-selector.js';
+/*
+===========================================
+GEMINI AI LIVE - 主JavaScript文件
+===========================================
+作者: AYC404 (基于ChrisKyle的原始项目)
+功能: 应用程序的主入口点，管理所有UI交互、音视频处理、WebSocket通信
+特色功能:
+- 多模态AI对话（文字、语音、视频、屏幕共享）
+- 实时音频可视化
+- 隐藏彩蛋系统（点击设置按钮5次触发）
+- 本地存储配置管理
+===========================================
+*/
+
+// 模块导入 - 各功能模块的引入
+import { MultimodalLiveClient } from './core/websocket-client.js';  // WebSocket客户端，处理与Gemini API的实时通信
+import { AudioStreamer } from './audio/audio-streamer.js';          // 音频流处理，管理音频播放和流式传输
+import { AudioRecorder } from './audio/audio-recorder.js';          // 音频录制，处理麦克风输入和录音功能
+import { CONFIG } from './config/config.js';                        // 配置文件，包含系统设置和常量
+import { Logger } from './utils/logger.js';                         // 日志工具，用于调试和错误追踪
+import { VideoManager } from './video/video-manager.js';            // 视频管理，处理摄像头视频流
+import { ScreenRecorder } from './video/screen-recorder.js';        // 屏幕录制，处理屏幕共享功能
+import { languages } from './language-selector.js';                 // 语言选择器，支持多语言语音识别
 
 /**
- * @fileoverview Main entry point for the application.
- * Initializes and manages the UI, audio, video, and WebSocket interactions.
+ * @fileoverview 应用程序主入口文件
+ *
+ * 主要功能:
+ * 1. 初始化和管理UI界面
+ * 2. 处理用户交互事件
+ * 3. 管理音频、视频、WebSocket连接
+ * 4. 实现隐藏彩蛋功能
+ * 5. 本地存储配置管理
  */
 
-// DOM Elements
-const logsContainer = document.getElementById('logs-container');
-const messageInput = document.getElementById('message-input');
-const sendButton = document.getElementById('send-button');
-const micButton = document.getElementById('mic-button');
-const micIcon = document.getElementById('mic-icon');
-const audioVisualizer = document.getElementById('audio-visualizer');
-const connectButton = document.getElementById('connect-button');
-const cameraButton = document.getElementById('camera-button');
-const cameraIcon = document.getElementById('camera-icon');
-const stopVideoButton = document.getElementById('stop-video');
-const screenButton = document.getElementById('screen-button');
-const screenIcon = document.getElementById('screen-icon');
-const screenContainer = document.getElementById('screen-container');
-const screenPreview = document.getElementById('screen-preview');
-const inputAudioVisualizer = document.getElementById('input-audio-visualizer');
+// DOM元素获取 - 获取页面中的各种UI元素引用
+const logsContainer = document.getElementById('logs-container');           // 日志显示容器
+const messageInput = document.getElementById('message-input');             // 文字消息输入框
+const sendButton = document.getElementById('send-button');                 // 发送按钮
+const micButton = document.getElementById('mic-button');                   // 麦克风按钮
+const micIcon = document.getElementById('mic-icon');                       // 麦克风图标
+const audioVisualizer = document.getElementById('audio-visualizer');       // 音频可视化器（输出）
+const connectButton = document.getElementById('connect-button');           // 连接按钮
+const cameraButton = document.getElementById('camera-button');             // 摄像头按钮
+const cameraIcon = document.getElementById('camera-icon');                 // 摄像头图标
+const stopVideoButton = document.getElementById('stop-video');             // 停止视频按钮
+const screenButton = document.getElementById('screen-button');             // 屏幕共享按钮
+const screenIcon = document.getElementById('screen-icon');                 // 屏幕共享图标
+const screenContainer = document.getElementById('screen-container');       // 屏幕预览容器
+const screenPreview = document.getElementById('screen-preview');           // 屏幕预览视频元素
+const inputAudioVisualizer = document.getElementById('input-audio-visualizer'); // 音频可视化器（输入）
 const apiKeyInput = document.getElementById('api-key');
 const voiceSelect = document.getElementById('voice-select');
 const languageSelect = document.getElementById('language-select');
@@ -572,33 +593,56 @@ function stopScreenSharing() {
 screenButton.addEventListener('click', handleScreenShare);
 screenButton.disabled = true;
 
-// 🥚 安醇蛋蛋蛋 彩蛋功能
-let easterEggClickCount = 0;
-let easterEggTimeout = null;
+/*
+===========================================
+🥚 隐藏彩蛋系统 - "安醇蛋蛋蛋"
+===========================================
+功能说明:
+- 连续点击设置按钮5次（5秒内）触发彩蛋
+- 显示全屏爱心雨动画效果
+- 播放"安醇蛋蛋蛋"像素文字
+- 包含音效和视觉特效
+- 点击任意位置退出彩蛋
+===========================================
+*/
 
+// 彩蛋状态变量
+let easterEggClickCount = 0;    // 点击计数器，记录设置按钮被点击的次数
+let easterEggTimeout = null;    // 计时器引用，用于重置点击计数
+
+/**
+ * 初始化彩蛋功能
+ * 设置点击监听器和彩蛋触发逻辑
+ */
 function initEasterEgg() {
-    const configToggle = document.getElementById('config-toggle');
-    const easterEggOverlay = document.getElementById('easter-egg-overlay');
-    const heartsContainer = document.getElementById('hearts-container');
+    // 获取相关DOM元素
+    const configToggle = document.getElementById('config-toggle');      // 设置按钮（触发器）
+    const easterEggOverlay = document.getElementById('easter-egg-overlay'); // 彩蛋覆盖层
+    const heartsContainer = document.getElementById('hearts-container');    // 爱心容器
 
+    // 为设置按钮添加点击监听器
     configToggle.addEventListener('click', () => {
-        easterEggClickCount++;
+        easterEggClickCount++; // 增加点击计数
 
-        // 重置计时器
+        // 清除之前的计时器（如果存在）
         if (easterEggTimeout) {
             clearTimeout(easterEggTimeout);
         }
 
-        // 5秒内没有点击就重置计数
+        // 设置5秒倒计时，如果5秒内没有继续点击，重置计数器
         easterEggTimeout = setTimeout(() => {
             easterEggClickCount = 0;
+            Logger.log('🥚 Easter egg click count reset');
         }, 5000);
 
-        // 点击5次触发彩蛋
+        // 检查是否达到触发条件（5次点击）
         if (easterEggClickCount === 5) {
-            triggerEasterEgg();
-            easterEggClickCount = 0;
+            triggerEasterEgg(); // 触发彩蛋
+            easterEggClickCount = 0; // 重置计数器
         }
+
+        // 调试信息：显示当前点击次数
+        Logger.log(`🥚 Easter egg clicks: ${easterEggClickCount}/5`);
     });
 
     function triggerEasterEgg() {
